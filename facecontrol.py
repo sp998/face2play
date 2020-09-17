@@ -1,7 +1,6 @@
 import cv2
 from pyautogui import press
 from multiprocessing import Process, Queue
-import time
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
@@ -54,16 +53,16 @@ def show_webcam(arg):
 q = Queue(maxsize=1)
 
 
-def consumer(q):
+def controller(q):
     while True:
         key = q.get()
         print(key)
         press(key)
 
 
-t1 = Process(target=show_webcam, args=(q,))
-t1.start()
-t2 = Process(target=consumer, args=(q,))
-t2.start()
-t1.join()
-t2.join()
+p1 = Process(target=show_webcam, args=(q,))
+p1.start()
+p2 = Process(target=controller, args=(q,))
+p2.start()
+p1.join()
+p2.join()

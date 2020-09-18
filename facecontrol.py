@@ -81,5 +81,4 @@ p1 = Process(target=show_webcam, args=(q,))
 p1.start()
 p2 = Process(target=controller, args=(q,))
 p2.start()
-p1.join()
-p2.join()
+
